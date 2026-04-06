@@ -60,5 +60,12 @@
             ReferencedContainer = "container:Fren.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "FREN_LANGUAGES"
+            value = "EN,FR"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
 </Scheme>

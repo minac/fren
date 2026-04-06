@@ -37,7 +37,15 @@ final class OverlayPanel: NSPanel {
         let y = screenFrame.midY - panelSize.height / 2
 
         setFrameOrigin(NSPoint(x: x, y: y))
+        orderFrontRegardless()
+        NSApp.activate(ignoringOtherApps: true)
         makeKeyAndOrderFront(nil)
+        // Force first responder into the content view so SwiftUI @FocusState works
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            if let contentView = self?.contentView {
+                self?.makeFirstResponder(contentView)
+            }
+        }
     }
 
     func dismiss() {

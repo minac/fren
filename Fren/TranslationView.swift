@@ -86,14 +86,40 @@ struct TranslationView: View {
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .frame(width: 480)
         .onAppear {
-            inputFocused = true
+            // Delay focus to ensure the panel is fully key and active
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                inputFocused = true
+            }
         }
         .onExitCommand {
             onDismiss()
         }
-        .background(
-            SwapKeyHandler(onSwap: swapAndTranslate, onCopy: copyResult)
-        )
+        .onAppear {
+            installKeyMonitor()
+        }
+        .onDisappear {
+            removeKeyMonitor()
+        }
+    }
+
+    @State private var keyMonitor: Any?
+
+    private func installKeyMonitor() {
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            // ⌥ + S (keyCode 1)
+            if event.modifierFlags.contains(.option) && event.keyCode == 1 {
+                swapAndTranslate()
+                return nil // consume the event
+            }
+            return event
+        }
+    }
+
+    private func removeKeyMonitor() {
+        if let monitor = keyMonitor {
+            NSEvent.removeMonitor(monitor)
+            keyMonitor = nil
+        }
     }
 
     private func translate() {
@@ -105,34 +131,35 @@ struct TranslationView: View {
 
         Task {
             do {
-                // First pass: auto-detect, target EN
+                // First pass: auto-detect, target primary language
                 let result = try await DeepLService.translate(
                     text: text,
-                    targetLang: "EN"
+                    targetLang: Config.primaryLang
                 )
 
-                let detected = result.detectedSourceLang.prefix(2).uppercased()
+                let detected = String(result.detectedSourceLang.prefix(2)).uppercased()
+                let bestTarget = Config.targetLang(forDetected: detected)
 
-                if detected == "EN" {
-                    // Source is English, re-translate to French
-                    let frResult = try await DeepLService.translate(
+                if detected == Config.primaryLang {
+                    // Source is primary lang, re-translate to best target
+                    let retranslated = try await DeepLService.translate(
                         text: text,
-                        sourceLang: "EN",
-                        targetLang: "FR"
+                        sourceLang: detected,
+                        targetLang: bestTarget
                     )
                     await MainActor.run {
-                        resultText = frResult.translatedText
-                        lastSourceLang = "EN"
-                        lastTargetLang = "FR"
-                        directionLabel = "EN → FR"
+                        resultText = retranslated.translatedText
+                        lastSourceLang = detected
+                        lastTargetLang = bestTarget
+                        directionLabel = "\(detected) → \(bestTarget)"
                         isLoading = false
                     }
                 } else {
                     await MainActor.run {
                         resultText = result.translatedText
-                        lastSourceLang = String(detected)
-                        lastTargetLang = "EN"
-                        directionLabel = "\(detected) → EN"
+                        lastSourceLang = detected
+                        lastTargetLang = Config.primaryLang
+                        directionLabel = "\(detected) → \(Config.primaryLang)"
                         isLoading = false
                     }
                 }
@@ -195,40 +222,3 @@ struct TranslationView: View {
     }
 }
 
-struct SwapKeyHandler: NSViewRepresentable {
-    var onSwap: () -> Void
-    var onCopy: () -> Void
-
-    func makeNSView(context: Context) -> KeyHandlerView {
-        let view = KeyHandlerView()
-        view.onSwap = onSwap
-        view.onCopy = onCopy
-        return view
-    }
-
-    func updateNSView(_ nsView: KeyHandlerView, context: Context) {
-        nsView.onSwap = onSwap
-        nsView.onCopy = onCopy
-    }
-
-    class KeyHandlerView: NSView {
-        var onSwap: (() -> Void)?
-        var onCopy: (() -> Void)?
-
-        override var acceptsFirstResponder: Bool { true }
-
-        override func keyDown(with event: NSEvent) {
-            // ⌥ + S
-            if event.modifierFlags.contains(.option) && event.keyCode == 1 {
-                onSwap?()
-                return
-            }
-            // ⌘ + C (when result shown)
-            if event.modifierFlags.contains(.command) && event.keyCode == 8 {
-                onCopy?()
-                return
-            }
-            super.keyDown(with: event)
-        }
-    }
-}

@@ -5,29 +5,22 @@ final class TranslationLogicTests: XCTestCase {
 
     // MARK: - Auto-Detect Direction Logic
 
-    func testFrenchDetectedTargetsEnglish() {
-        // When DeepL detects FR, we translate to EN
-        let detected = "FR"
-        let target = "EN"
-        // If detected source is NOT English, the first-pass target (EN) is correct
-        XCTAssertNotEqual(detected, "EN")
-        XCTAssertEqual(target, Config.targetLang)
+    func testFrenchDetectedTargetsPrimary() {
+        // When DeepL detects FR, we translate to the primary language
+        let target = Config.targetLang(forDetected: "FR")
+        XCTAssertEqual(target, Config.primaryLang)
     }
 
-    func testEnglishDetectedTargetsFrench() {
-        // When DeepL detects EN, we re-translate to FR
-        let detected = "EN"
-        let retarget = detected == "EN" ? "FR" : "EN"
-        XCTAssertEqual(retarget, "FR")
+    func testPrimaryDetectedTargetsSecond() {
+        // When DeepL detects the primary language, re-translate to second supported
+        let target = Config.targetLang(forDetected: Config.primaryLang)
+        XCTAssertNotEqual(target, Config.primaryLang)
     }
 
-    func testNonFrenchNonEnglishDefaultsToEnglish() {
-        // If something other than EN is detected on first pass, target stays EN
-        let detected = "DE"
-        let target = "EN"
-        // First pass targets EN; since detected != EN, we keep it
-        XCTAssertNotEqual(detected, "EN")
-        XCTAssertEqual(target, "EN")
+    func testNonSupportedLanguageDefaultsToPrimary() {
+        // If an unsupported language is detected, target the primary language
+        let target = Config.targetLang(forDetected: "DE")
+        XCTAssertEqual(target, Config.primaryLang)
     }
 
     // MARK: - Swap Logic
