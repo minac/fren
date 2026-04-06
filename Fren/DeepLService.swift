@@ -43,12 +43,15 @@ enum DeepLService {
 
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
+        log.debug("translate request", ctx: ["target": targetLang, "source": sourceLang ?? "auto"])
+
         let (data, response) = try await URLSession.shared.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw DeepLError.invalidResponse
         }
         guard httpResponse.statusCode == 200 else {
+            log.error("DeepL API error", ctx: ["status": "\(httpResponse.statusCode)"])
             throw DeepLError.apiError(statusCode: httpResponse.statusCode)
         }
 
@@ -56,6 +59,8 @@ enum DeepLService {
         guard let translation = decoded.translations.first else {
             throw DeepLError.noTranslation
         }
+
+        log.debug("translate response", ctx: ["detected": translation.detected_source_language, "target": targetLang])
 
         return TranslationResult(
             translatedText: translation.text,
