@@ -5,23 +5,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Test
 
 ```bash
-# Build (Debug)
-xcodebuild build -project Fren.xcodeproj -scheme Fren -destination 'platform=macOS' -configuration Debug
+./run.sh build            # Debug build
+./run.sh build release    # Release build
+./run.sh test             # Run all tests
+./run.sh run              # Build debug and launch
+./run.sh package          # Build release .app to build/
+./run.sh release <ver>    # Full pipeline: build → sign → dmg → notarize
+```
 
-# Build (Release)
-xcodebuild build -project Fren.xcodeproj -scheme Fren -destination 'platform=macOS' -configuration Release
-
-# Run all tests
-xcodebuild test -project Fren.xcodeproj -scheme Fren -destination 'platform=macOS'
-
-# Run a single test class
+Single test class/method (no `run.sh` shortcut):
+```bash
 xcodebuild test -project Fren.xcodeproj -scheme Fren -destination 'platform=macOS' -only-testing:FrenTests/ConfigTests
-
-# Run a single test method
-xcodebuild test -project Fren.xcodeproj -scheme Fren -destination 'platform=macOS' -only-testing:FrenTests/ConfigTests/testDefaultLanguagePair
-
-# Install to /Applications
-cp -R "$(xcodebuild -project Fren.xcodeproj -scheme Fren -configuration Release -showBuildSettings 2>/dev/null | grep ' BUILT_PRODUCTS_DIR' | awk '{print $3}')/Fren.app" /Applications/Fren.app
 ```
 
 ## Architecture

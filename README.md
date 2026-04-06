@@ -20,15 +20,14 @@ Instant French-English translation overlay for macOS. Press `⌥T` from anywhere
 ## Build & Run
 
 ```bash
-# Clone
 git clone https://github.com/minac/fren.git
 cd fren
 
-# Open in Xcode
-open Fren.xcodeproj
+# Build and launch
+./run.sh run
 
-# Or build from the command line
-xcodebuild -project Fren.xcodeproj -scheme Fren -configuration Debug build
+# Or open in Xcode
+open Fren.xcodeproj
 ```
 
 On first launch, Fren will prompt you to paste your DeepL API key. The key is stored securely in the macOS Keychain and never asked for again.
@@ -69,20 +68,18 @@ Fren/
 ├── OverlayPanel.swift     # NSPanel — floating, borderless, vibrancy
 ├── TranslationView.swift  # SwiftUI — input, result, direction label, swap
 ├── DeepLService.swift     # Async DeepL API client
-├── HotkeyManager.swift    # Global ⌥T hotkey via CGEvent tap
-└── Config.swift           # Keychain API key storage, language pair constants
+├── HotkeyManager.swift    # Global ⌥T hotkey via CGEvent tap + Carbon fallback
+├── Config.swift           # Keychain API key storage, language routing
+├── AppLogger.swift        # Structured JSONL logger (OSLog + logs/app.jsonl)
+run.sh                     # Build, test, package, sign, release
 ```
 
 ## Running Tests
 
 ```bash
-# Run all tests from the command line
-xcodebuild test \
-  -project Fren.xcodeproj \
-  -scheme Fren \
-  -destination 'platform=macOS'
+./run.sh test
 
-# Or run tests in Xcode: ⌘U
+# Or in Xcode: ⌘U
 ```
 
 ### What the Tests Cover
@@ -90,9 +87,8 @@ xcodebuild test \
 - **DeepL API response parsing** — valid JSON, empty translations, malformed JSON
 - **DeepL error handling** — missing API key, HTTP error codes, network errors
 - **DeepL request construction** — correct URL, headers, body with/without source language
-- **Config constants** — language pair values, endpoint URL
-- **Translation auto-detect logic** — French input targets EN, English input re-targets FR
-- **Swap logic** — direction reversal, source/target flip
+- **Config language routing** — primary/secondary targeting, unknown language fallback
+- **Translation auto-detect logic** — detected language routes to correct target
 
 ## License
 
