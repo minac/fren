@@ -13,7 +13,21 @@
 		A10000010000000000000004 /* DeepLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000004; };
 		A10000010000000000000005 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000005; };
 		A10000010000000000000006 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000006; };
+		B10000010000000000000001 /* DeepLServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000001; };
+		B10000010000000000000002 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000002; };
+		B10000010000000000000003 /* DeepLRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000003; };
+		B10000010000000000000004 /* TranslationLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000004; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B10000030000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10000090000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A10000060000000000000001;
+			remoteInfo = Fren;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A10000020000000000000001 /* FrenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenApp.swift; sourceTree = "<group>"; };
@@ -25,10 +39,22 @@
 		A10000020000000000000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000020000000000000008 /* Fren.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fren.entitlements; sourceTree = "<group>"; };
 		A10000030000000000000001 /* Fren.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fren.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000020000000000000001 /* DeepLServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLServiceTests.swift; sourceTree = "<group>"; };
+		B10000020000000000000002 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
+		B10000020000000000000003 /* DeepLRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLRequestTests.swift; sourceTree = "<group>"; };
+		B10000020000000000000004 /* TranslationLogicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationLogicTests.swift; sourceTree = "<group>"; };
+		B10000030000000000000002 /* FrenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FrenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A10000040000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B10000040000000000000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				A10000050000000000000002 /* Fren */,
+				B10000050000000000000001 /* FrenTests */,
 				A10000050000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,8 +92,20 @@
 			isa = PBXGroup;
 			children = (
 				A10000030000000000000001 /* Fren.app */,
+				B10000030000000000000002 /* FrenTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B10000050000000000000001 /* FrenTests */ = {
+			isa = PBXGroup;
+			children = (
+				B10000020000000000000001 /* DeepLServiceTests.swift */,
+				B10000020000000000000002 /* ConfigTests.swift */,
+				B10000020000000000000003 /* DeepLRequestTests.swift */,
+				B10000020000000000000004 /* TranslationLogicTests.swift */,
+			);
+			path = FrenTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,6 +126,23 @@
 			productName = Fren;
 			productReference = A10000030000000000000001 /* Fren.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B10000060000000000000001 /* FrenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B10000080000000000000001 /* Build configuration list for PBXNativeTarget "FrenTests" */;
+			buildPhases = (
+				B10000070000000000000001 /* Sources */,
+				B10000040000000000000001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B10000060000000000000002 /* PBXTargetDependency */,
+			);
+			name = FrenTests;
+			productName = FrenTests;
+			productReference = B10000030000000000000002 /* FrenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -112,6 +168,7 @@
 			projectRoot = "";
 			targets = (
 				A10000060000000000000001 /* Fren */,
+				B10000060000000000000001 /* FrenTests */,
 			);
 		};
 /* End PBXProject section */
@@ -130,7 +187,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B10000070000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000010000000000000001 /* DeepLServiceTests.swift in Sources */,
+				B10000010000000000000002 /* ConfigTests.swift in Sources */,
+				B10000010000000000000003 /* DeepLRequestTests.swift in Sources */,
+				B10000010000000000000004 /* TranslationLogicTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B10000060000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A10000060000000000000001 /* Fren */;
+			targetProxy = B10000030000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A100000A0000000000000001 /* Debug */ = {
@@ -222,6 +298,40 @@
 			};
 			name = Release;
 		};
+		B100000A0000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fren.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fren.app/Contents/MacOS/Fren";
+			};
+			name = Debug;
+		};
+		B100000A0000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fren.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fren.app/Contents/MacOS/Fren";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -239,6 +349,15 @@
 			buildConfigurations = (
 				A100000A0000000000000001 /* Debug */,
 				A100000A0000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B10000080000000000000001 /* Build configuration list for PBXNativeTarget "FrenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B100000A0000000000000001 /* Debug */,
+				B100000A0000000000000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
