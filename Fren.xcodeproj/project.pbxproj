@@ -14,6 +14,7 @@
 		A10000010000000000000005 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000005; };
 		A10000010000000000000006 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000006; };
 		A10000010000000000000007 /* AppLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000009; };
+		A10000010000000000000008 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A1000002000000000000000A; };
 		B10000010000000000000001 /* DeepLServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000001; };
 		B10000010000000000000002 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000002; };
 		B10000010000000000000003 /* DeepLRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000020000000000000003; };
@@ -40,6 +41,7 @@
 		A10000020000000000000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000020000000000000008 /* Fren.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fren.entitlements; sourceTree = "<group>"; };
 		A10000020000000000000009 /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
+		A1000002000000000000000A /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		A10000030000000000000001 /* Fren.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fren.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B10000020000000000000001 /* DeepLServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLServiceTests.swift; sourceTree = "<group>"; };
 		B10000020000000000000002 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				A10000020000000000000005 /* HotkeyManager.swift */,
 				A10000020000000000000006 /* Config.swift */,
 				A10000020000000000000009 /* AppLogger.swift */,
+				A1000002000000000000000A /* AppIcon.icns */,
 				A10000020000000000000007 /* Info.plist */,
 				A10000020000000000000008 /* Fren.entitlements */,
 			);
@@ -120,6 +123,7 @@
 			buildPhases = (
 				A10000070000000000000001 /* Sources */,
 				A10000040000000000000001 /* Frameworks */,
+				A10000070000000000000002 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -175,6 +179,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000070000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000010000000000000008 /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A10000070000000000000001 /* Sources */ = {
