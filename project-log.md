@@ -1,5 +1,11 @@
 # Project Log
 
+## 2026-04-06 — Add run.sh and update docs
+
+- Added `run.sh` (build/test/run/package/sign/dmg/release) following sibling Swift project pattern
+- Updated CLAUDE.md to reference `run.sh` commands
+- Updated README.md: correct project structure, run.sh usage, accurate test descriptions
+
 ## 2026-04-06 — Add structured logging, project-log, conventions alignment
 
 - Added `AppLogger.swift` — structured JSONL logger (OSLog + `logs/app.jsonl`) per global conventions
