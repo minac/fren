@@ -44,3 +44,16 @@ Fren is a macOS background app (LSUIElement) — no Dock icon, no menu bar. Swif
 | `FREN_LANGUAGES` | Comma-separated language codes (first is primary) | `EN,FR` |
 
 Set in Xcode scheme for development. For standalone use: `FREN_LANGUAGES="EN,FR" open /Applications/Fren.app`
+
+## Logging
+
+Structured JSONL to `logs/app.jsonl` (gitignored) via `AppLogger.swift`. Dual output: OSLog (Console.app) + JSONL file.
+
+Usage: `log.info("msg", ctx: ["key": "value"])`. Levels: `debug`, `info`, `warn`, `error`.
+
+Query: `~/.claude/scripts/query-logs.sh`
+
+## Project Notes
+
+- **No XcodeGen** — `.pbxproj` is edited directly (unlike other Swift projects). If XcodeGen is added later, switch to `project.yml` as source of truth.
+- **No SPM** — pure Xcode project. Build/test via `xcodebuild`, not `swift build/test`.

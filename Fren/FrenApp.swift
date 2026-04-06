@@ -19,10 +19,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var showingAPIKeyPrompt = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Hide from Dock (belt-and-suspenders with LSUIElement)
         NSApp.setActivationPolicy(.accessory)
+        log.info("app launched", ctx: ["languages": Config.supportedLanguages.joined(separator: ",")])
 
         if !Config.hasAPIKey {
+            log.info("no API key found, prompting user")
             showAPIKeyPrompt()
         }
 
@@ -94,7 +95,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if response == .alertFirstButtonReturn {
             let key = inputField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
             if !key.isEmpty {
-                if !Config.setAPIKey(key) {
+                if Config.setAPIKey(key) {
+                    log.info("API key saved to Keychain")
+                } else {
+                    log.error("failed to save API key to Keychain")
                     let failAlert = NSAlert()
                     failAlert.messageText = "Could not save API key"
                     failAlert.informativeText = "The key could not be stored in the macOS Keychain."

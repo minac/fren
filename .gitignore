@@ -8,5 +8,8 @@ xcuserdata/
 *.xcscmblueprint
 *.xccheckout
 
+## Logs
+logs/
+
 ## macOS
 .DS_Store
