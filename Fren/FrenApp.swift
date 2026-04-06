@@ -14,6 +14,7 @@ struct FrenApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var overlayPanel: OverlayPanel?
+    private var clickOutsideMonitor: Any?
     private let hotkeyManager = HotkeyManager()
     private var showingAPIKeyPrompt = false
 
@@ -33,10 +34,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func toggleOverlay() {
         if let panel = overlayPanel, panel.isVisible {
-            panel.dismiss()
-            overlayPanel = nil
+            dismissOverlay()
         } else {
             showOverlay()
+        }
+    }
+
+    private func dismissOverlay() {
+        overlayPanel?.dismiss()
+        overlayPanel = nil
+        if let monitor = clickOutsideMonitor {
+            NSEvent.removeMonitor(monitor)
+            clickOutsideMonitor = nil
         }
     }
 
@@ -47,20 +56,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let view = TranslationView(onDismiss: { [weak self] in
-            self?.overlayPanel?.dismiss()
-            self?.overlayPanel = nil
+            self?.dismissOverlay()
         })
 
         let panel = OverlayPanel(contentView: view)
         overlayPanel = panel
 
-        // Dismiss on click outside
-        NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown) { [weak self] event in
+        clickOutsideMonitor = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown) { [weak self] event in
             guard let panel = self?.overlayPanel, panel.isVisible else { return event }
-            let locationInWindow = event.locationInWindow
             if event.window != panel {
-                panel.dismiss()
-                self?.overlayPanel = nil
+                self?.dismissOverlay()
             }
             return event
         }
@@ -89,7 +94,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if response == .alertFirstButtonReturn {
             let key = inputField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
             if !key.isEmpty {
-                _ = Config.setAPIKey(key)
+                if !Config.setAPIKey(key) {
+                    let failAlert = NSAlert()
+                    failAlert.messageText = "Could not save API key"
+                    failAlert.informativeText = "The key could not be stored in the macOS Keychain."
+                    failAlert.runModal()
+                    NSApp.terminate(nil)
+                }
             } else {
                 NSApp.terminate(nil)
             }
