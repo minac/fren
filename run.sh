@@ -86,6 +86,11 @@ cmd_package() {
     rm -rf "$BUILD_DIR/release/$APP_NAME.app"
     cp -R "$src_app" "$BUILD_DIR/release/$APP_NAME.app"
     echo "Packaged: $BUILD_DIR/release/$APP_NAME.app"
+
+    echo "Installing to /Applications..."
+    rm -rf "/Applications/$APP_NAME.app"
+    cp -R "$BUILD_DIR/release/$APP_NAME.app" "/Applications/$APP_NAME.app"
+    echo "Installed: /Applications/$APP_NAME.app"
 }
 
 cmd_sign() {
