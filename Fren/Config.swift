@@ -2,8 +2,6 @@ import Foundation
 import Security
 
 enum Config {
-    static let sourceLang = "FR"
-    static let targetLang = "EN"
     static let deepLEndpoint = "https://api-free.deepl.com/v2/translate"
 
     /// Supported languages read from FREN_LANGUAGES env var (comma-separated, e.g. "EN,FR,PT").
@@ -63,7 +61,7 @@ enum Config {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: keychainService,
             kSecAttrAccount as String: keychainAccount,
-            kSecValueData as String: key.data(using: .utf8)!
+            kSecValueData as String: (key.data(using: .utf8) ?? Data())
         ]
         let status = SecItemAdd(addQuery as CFDictionary, nil)
         return status == errSecSuccess

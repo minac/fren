@@ -86,23 +86,23 @@ struct TranslationView: View {
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .frame(width: 480)
         .onAppear {
+            installKeyMonitor()
             // Delay focus to ensure the panel is fully key and active
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 inputFocused = true
             }
         }
+        .onDisappear {
+            translationTask?.cancel()
+            removeKeyMonitor()
+        }
         .onExitCommand {
             onDismiss()
-        }
-        .onAppear {
-            installKeyMonitor()
-        }
-        .onDisappear {
-            removeKeyMonitor()
         }
     }
 
     @State private var keyMonitor: Any?
+    @State private var translationTask: Task<Void, Never>?
 
     private func installKeyMonitor() {
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
@@ -128,8 +128,9 @@ struct TranslationView: View {
 
         isLoading = true
         errorMessage = ""
+        translationTask?.cancel()
 
-        Task {
+        translationTask = Task {
             do {
                 // First pass: auto-detect, target primary language
                 let result = try await DeepLService.translate(
@@ -178,12 +179,12 @@ struct TranslationView: View {
 
         isLoading = true
         errorMessage = ""
+        translationTask?.cancel()
 
-        // Reverse the current direction
         let newSource = lastTargetLang
         let newTarget = lastSourceLang
 
-        Task {
+        translationTask = Task {
             do {
                 let result = try await DeepLService.translate(
                     text: text,
