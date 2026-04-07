@@ -17,10 +17,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var clickOutsideMonitor: Any?
     private let hotkeyManager = HotkeyManager()
     private var showingAPIKeyPrompt = false
+    private var statusItem: NSStatusItem?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         log.info("app launched", ctx: ["languages": Config.supportedLanguages.joined(separator: ",")])
+
+        setupMenuBarIcon()
 
         if !Config.hasAPIKey {
             log.info("no API key found, prompting user")
@@ -31,6 +34,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self?.toggleOverlay()
         }
         hotkeyManager.start()
+    }
+
+    private func setupMenuBarIcon() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        if let button = statusItem?.button {
+            button.image = NSImage(systemSymbolName: "bubble.left.and.text.bubble.right", accessibilityDescription: "Fren")
+            button.action = #selector(statusBarButtonClicked)
+            button.target = self
+        }
+    }
+
+    @objc private func statusBarButtonClicked() {
+        toggleOverlay()
     }
 
     private func toggleOverlay() {
