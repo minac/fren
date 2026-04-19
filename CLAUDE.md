@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./run.sh build release    # Release build
 ./run.sh test             # Run all tests
 ./run.sh run              # Build debug and launch
-./run.sh package          # Build release .app to build/
+./run.sh package          # Build release .app to build/ and install to /Applications/
 ./run.sh release <ver>    # Full pipeline: build → sign → dmg → notarize
 ```
 
